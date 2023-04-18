@@ -16,7 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from Twitter import views
+from .models import Tweet, Profile
+from .forms import TweetForm
+from .views import home, profile, create_tweet
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', home, name='home'),
+    path('profile/', profile, name='profile'),
+    path('create_tweet/', create_tweet, name='create_tweet'),
 ]
