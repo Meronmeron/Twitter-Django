@@ -1,9 +1,9 @@
 
-{% extends 'base.html' %}
+{% extends 'feed/base.html' %}
 
 {% block content %}
     <h1>Create a Tweet</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Submit</button>
+     <button type="submit">Submit</button>

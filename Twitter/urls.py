@@ -15,15 +15,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from Twitter import views
-from .models import Tweet, Profile
-from .forms import TweetForm
-from .views import home, profile, create_tweet
-
+from django.urls import path,include
+from django.contrib.auth import views as auth_views
+from accounts import views as acc_views
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home, name='home'),
-    path('profile/', profile, name='profile'),
-    path('create_tweet/', create_tweet, name='create_tweet'),
+    path('',include('feed.urls')),
+    path('login/',auth_views.LoginView.as_view(template_name = 'accounts/login.html'), name = 'login'),
+    path('register/',acc_views.register, name='register')
+   
 ]
+
+
+
