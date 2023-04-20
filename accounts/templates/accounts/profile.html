@@ -1,8 +1,10 @@
 {% extends 'feed/base.html' %}
 
  {% block content %}
-    <h1>{{ user.username }}</h1>
-    <p>{{ profile.bio }}</p>
+    <img src="{{user.profile.image.url}}">
+    <p>{{ user.username }}</p>
+    <p>{{ user.profile.bio }}</p>
+    <a href="{% url 'profileupdate' %}"><button>Edit </button></a>
     {% for tweet in tweets %}
         <div class="tweet">
             <p>{{ tweet.text }}</p>

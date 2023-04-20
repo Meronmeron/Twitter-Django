@@ -1,18 +1,14 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
-from .models import Tweet, Profile
+from .models import Tweet
 from .forms import TweetForm
 
+
+@login_required
 def home(request):
     tweets = Tweet.objects.all().order_by('-created_at')
     return render(request, 'feed/home.html', {'tweets': tweets})
 
-@login_required
-def profile(request, username):
-    user = User.objects.get(username=username)
-    profile = Profile.objects.get(user=user)
-    tweets = Tweet.objects.filter(user=user).order_by('-created_at')
-    return render(request, 'feed/profile.html', {'user': user, 'profile': profile, 'tweets': tweets})
 
 @login_required
 def create_tweet(request):
