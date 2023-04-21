@@ -1,0 +1,18 @@
+{% extends 'feed/base.html' %}
+
+{%block content%}
+
+<div>
+    <form method="POST">
+        {%csrf_token%}
+        <fieldset>
+            <legend>Write here</legend>
+              {{form.as_p}}
+        </fieldset>
+        <button type="submit">Tweet</button>
+       
+
+    </form>
+</div>
+
+{% endblock %}

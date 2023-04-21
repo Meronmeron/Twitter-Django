@@ -4,10 +4,9 @@ from django.utils import timezone
 
 
 
-
 class Tweet(models.Model):
-    text = models.CharField(max_length=140,default='')
-    created_at = models.DateTimeField(auto_now_add=True)
+    text = models.TextField(max_length=140, default = '')
+    created_at = models.DateTimeField(default=timezone.now)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 

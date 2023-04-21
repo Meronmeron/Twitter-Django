@@ -1,7 +1,7 @@
 {% extends 'feed/base.html' %}
 
  {% block content %}
-    <img src="{{user.profile.image.url}}">
+    <img src="{{user.profile.image.url}}" alt="Generic placeholder image">
     <p>{{ user.username }}</p>
     <p>{{ user.profile.bio }}</p>
     <a href="{% url 'profileupdate' %}"><button>Edit </button></a>
