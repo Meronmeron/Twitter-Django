@@ -1,18 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Twitter</title>
-</head>
-<body>
-    <div>
-        <h4>Loged out</h4>
-        <a href="{% url 'login' %}"><p>Login</p></a>
-        <a href="{% url 'register' %}"><p>create a new account</p></a>
-       
+{% extends "feed/base.html" %}
+{% block content %}
+
+    <div class="container">
+        <h4 class="white-important">Loged out</h4>
+        <div class="pt-3">
+            <small class="text-muted">
+                <a class="ml-2" href="{% url 'login' %}">Login</a>
+                <a class="ml-2" href="{% url 'register' %}">create a new account</a>
+            </small>
+            
+        </div>   
     </div>
-   
-</body>
-</html>
+{% endblock content %}  

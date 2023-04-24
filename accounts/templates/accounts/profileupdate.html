@@ -1,14 +1,20 @@
 {% extends 'feed/base.html' %}
-
 {% block content %}
     <div>
-        <form method="POST" enctype="multipart/form-data">
+        <div class="container">
+            <h3 class="white-important">
+                Change profile data
+            </h3>
+        <form method="POST" enctype="multipart/form-data" class="col-6 no-padding">
             {%csrf_token%}
-            <fieldset>
+            <fieldset class="form-group">
                 <legend>Edit</legend>
                 {{pform.as_p}}
             </fieldset>
-            <button type="submit">Update</button>
+            <div class="form-group">
+                <button class="btn btn-outline-primary" type="submit">Update</button>
+            </div>
+           
 
         </form>
     </div>

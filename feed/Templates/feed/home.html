@@ -1,14 +1,13 @@
 {% extends 'feed/base.html' %}
 {% load static %}
-    {% block content %}
+{% block content %}
     <div class="row">
-        <div class="col-12 col-md-3 pr-4 dont-move">
-            <a href="/"> <h2><img class="img-fluid" width="60" src="{% static 'feed/logo.png' %}">Feed</h2></a><br>
+        <div class="col-10 col-md-3 pr-4 dont-move">
             <div class="profile-section">
             <h3 class="white-important p-2">
                 Profile
             </h3>
-            <article class="media content-section" style="height: 140px; width: 100%">
+            <article class="media content-section" style="height: 200px; width: 100%">
                 {%  if user_profile != None %}
                     <div class="mt-2 d-flex full-width align-items-center">
                         <img
@@ -54,138 +53,130 @@
                     <div class="col-6">
                             Following
                     </div>
-                    {%  if user_profile != None %}
-                        <div class="col-6">
-                            <h3 class="white-important follow-click">
-                                <a href="{% url 'user-followers' user_profile.username %}">
-                                    {{ user_profile.profile.followers }}
-                                </a>
-                            </h3>
-                        </div>
-                         <div class="col-6">
-                            <a href="{% url 'user-follows' user.username %}">
-                                <h3 class="white-important follow-click">
-                                    {{ user_profile.profile.following }}
-                                </h3>
-                            </a>
-                        </div>
-                    {% else %}
-                        <div class="col-6">
-                            <a href="{% url 'user-followers' user.username %}">
-                                <h3 class="white-important follow-click">
-                                    {{ user.profile.followers }}
-                                </h3>
-                            </a>
-                        </div>
-
-                        <a href="{% url 'user-follows' user.username %}">
+                    {% if user_profile != None %}
                             <div class="col-6">
                                 <h3 class="white-important follow-click">
-                                    {{ user.profile.following }}
+                                    <a href="{% url 'user-followers' user_profile.username %}">
+                                        {{ user_profile.profile.followers }}
+                                    </a>
                                 </h3>
                             </div>
-                        </a>
-                    {%  endif %}
-                </div>
+                            <div class="col-6">
+                                <a href="{% url 'user-follows' user.username %}">
+                                    <h3 class="white-important follow-click">
+                                        {{ user_profile.profile.following }}
+                                    </h3>
+                                </a>
+                            </div>
+                    {% else %}
+                            <div class="col-6">
+                                <a href="{% url 'user-followers' user.username %}">
+                                    <h3 class="white-important follow-click">
+                                        {{ user.profile.followers }}
+                                    </h3>
+                                </a>
+                            </div>
+                            <div class="col-6">
+                            <a href="{% url 'user-follows' user.username %}">
+                                    <h3 class="white-important follow-click">
+                                        {{ user.profile.following }}
+                                    </h3>
+                                </div>
+                            </a>
+                        
+                    {% endif %}
+                </div> 
             </article>
 <!-- add this also tweet creation -->
-<div class="d-flex">
-    {% if user_profile is None %}
-    <div style="margin-left: auto; margin-right:auto">
-        <a class="btn btn-sm btn-outline-primary mb-4 mr-3 " href="{% url 'tweetcreate' %}">
-            Tweet
-        </a>
-    </div>
-    {% endif %}
-    {%  if user_profile is not None and user_profile.id != user.id  and user.username != '' %}
-        <form method="POST">
-            {% csrf_token %}
-            <div class="form-group">
-                <button style="margin-left: 18px" class="btn btn-sm btn-outline-primary"
-                        name="{% if can_follow %}follow{% else %}unfollow{% endif %}"
-                        type="submit">
-                     {% if can_follow %}
-                         FOLLOW
-                     {% else %}
-                         UNFOLLOW
-                     {% endif %}
-                </button>
+            <div class="d-flex">
+                {% if user_profile is None %}
+                        <div style="margin-left: auto; margin-right:auto">
+                            <a class="btn btn-sm btn-outline-primary mb-4 mr-3 " href="{% url 'tweetcreate' %}">
+                                Tweet
+                            </a>
+                        </div>
+                {% endif %}
+                {% if user_profile is not None and user_profile.id != user.id  and user.username != '' %}
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <button style="margin-left: 18px" class="btn btn-sm btn-outline-primary"
+                                        name="{% if can_follow %}follow{% else %}unfollow{% endif %}"
+                                        type="submit">
+                                    {% if can_follow %}
+                                            FOLLOW
+                                    {% else %}
+                                            UNFOLLOW
+                                    {% endif %}
+                                </button>
+                            </div>
+                        </form>
+                {% endif %}
             </div>
-        </form>
-    {% endif %}
-</div>
-</div>
-</div>
-<div class="col-12 col-md-6 scrollable" >
-    <div class="full-width row">
-        <div class="col-6">
+           </div>
+        </div>
+    <div class="col-10 col-md-9 scrollable" >
+        <div class="full-width row">
+            <div class="col-6">
             <h3 class="white-important mb-3">
                 Tweets
             </h3>
         </div>
-    {% for tweet in object_list %}
-        <article class="media content-section hovered-tweet">
-        <div style="width: 100%; word-break: break-all;">
-
-                    <div class="pb-2 row m-0" style="width: 100%; margin-right: 0 !important;">
-                    <div
-                            style="padding-left: 0px !important;"
-                            class="col-8 no-padding d-flex align-items-center">
-                        <img
-                            class="rounded-circle mr-2"
-                            style="width: 20px; height: 20px;"
-                            src="{{ user.profile.image.url }}">
-                        <a class="mr-2 white-important" href="{% url 'user-tweets' tweet.user.username %}">
-                            {{ tweet.user.username }}
-                        </a>
-                    </div>
-                    <div class="col-4 d-flex flex-row-reverse no-padding align-items-center"
-                            style="padding-right: 0 !important;">
-                        {% if tweet.user.username == user %}
-                                <a class="material-icons ml-2"
-                                style="font-size: 14px"
-                                        href="{% url 'tweetdelete' tweet.id %}">clear</a>
-                                <a class="material-icons ml-2"
-                                style="font-size: 14px"
-                                        href="{% url 'tweetupdate' tweet.id %}">update</a>
-                            {%  endif %}
-                    </div>
-                </div>
-                    <div class="mb-2"
-                        style="width: 100%; height: 1px; background-color: rgba(255, 255, 255, 0.1)"></div>
-                    <a
-                            style="color: rgba(255, 255, 255, 0.5) !important;"
-                            href="{% url 'tweetdetail' tweet.id %}">
-                        <p class="mb-4">
-                            {{ tweet.text }}
-                        </p>
-                    </a>
-
-                    <div class="col-6">
-                        <small
-                                style="opacity: 0.4;"
-                            class="white-important d-flex full-width flex-row-reverse">
-                            {{ tweet.created_at| date:"H:i l, d.m.y" }}
-                        </small>
-                    </div>
-                </div>
-
         </div>
-        </article>    
+    {% for tweet in object_list %}
+            <article class="media content-section hovered-tweet">
+                <div style="width: 100%; word-break: break-all;">
+                    <div class="pb-2 row m-0" style="width: 100%; margin-right: 0 !important;">
+                        <div style="padding-left: 0px !important;"
+                            class="col-8 no-padding d-flex align-items-center">
+                                <img
+                                    class="rounded-circle mr-2"
+                                    style="width: 20px; height: 20px;"
+                                    src="{{ tweet.user.profile.image.url }}">
+                                <a class="mr-2 white-important" href="{% url 'user-tweets' tweet.user.username %}">
+                                    {{ tweet.user.username }}
+                                </a>
+                            </div>
+                            <div class="col-4 d-flex flex-row-reverse no-padding align-items-center"
+                                    style="padding-right: 0 !important;">
+                                {% if tweet.user == user %}
+                                        <a class="material-icons ml-2" style="font-size: 14px" href="{% url 'tweetdelete' tweet.id %}">
+                                            clear
+                                        </a>
+                                        <a class="material-icons ml-2" style="font-size: 14px" href="{% url 'tweetupdate' tweet.id %}">
+                                            update
+                                        </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                            <div class="mb-2" style="width: 100%; height: 1px; background-color: rgba(255, 255, 255, 0.1)">
+                            <a style="color: rgba(255, 255, 255, 0.5) !important;"
+                                    href="{% url 'tweetdetail' tweet.id %}">
+                                <p class="mb-4">
+                                    {{ tweet.text }}
+                                </p>
+                            </a>
+                            </div>
+                            <br>
+                            <div class="col-6">
+                                <small
+                                    style="opacity: 0.4;"
+                                    class="white-important d-flex full-width flex-row-reverse">
+                                    {{ tweet.created_at| date:"H:i l, d.m.y" }}
+                                </small>
+                            </div>
+                        </div>
+                    </article>   
     {% endfor %}
-
-     <footer>
-        <p><a href="">Terms</a>,
-            <a href="">Privacy policy</a>,
-            <a href="">Cookies</a>,
-            <a href="">Ads info</a>,
-            <a href="">More</a>
-            © 2023 Twitter, Inc.</p>
-     </footer>
+    </div>
+</div>  
+<footer style="  position: fixed; left: 50%; bottom: 0; width: 100%;">
+     <p> © 2023 Twitter, Inc.</p>
+</footer>
 {% endblock %}
 
 
-<!--     
+<!--    
             <div>
         
                 <h1>Hello {{user.username}} </h1>
@@ -203,6 +194,6 @@
                         <a href="{% url 'tweetdelete' tweet.id %}"><button>Delete</button></a>
         
                         {% endif %}
-        {%endfor%}
-                    </div> -->
+                {%endfor%}
+            </div> -->
 
