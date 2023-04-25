@@ -28,7 +28,7 @@ urlpatterns = [
     path('register/',acc_views.register, name='register'),
     path('profile/',acc_views.profile, name='profile'),  
     path('profileupdate/',acc_views.profileupdate, name='profileupdate'),   
- 
+    path('search/', acc_views.SearchView, name='search'),
 ]
 
 if settings.DEBUG:
