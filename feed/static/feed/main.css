@@ -202,7 +202,8 @@ ul {
 }
 
 input[type="file"]::-webkit-file-upload-button {
-    color: white !important;
+    color: black;
+    font-style: normal;
     background-color: #15202b !important;
     border-radius: 4px;
     border: 1px solid white;

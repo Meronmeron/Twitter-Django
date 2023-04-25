@@ -1,16 +1,22 @@
 from django.shortcuts import render,get_object_or_404,redirect
 from django.contrib.auth.decorators import login_required
 from .models import Tweet
+import sys
+from django.urls import reverse
+from django.contrib.auth.models import User
 from django.views.generic import ListView,CreateView,UpdateView,DeleteView,DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from accounts.models import Follow,Profile
 def is_users(post_user, logged_user):
     return post_user == logged_user
 
+PAGINATION_COUNT = 3
+
 class TweetListView(LoginRequiredMixin,ListView):
     model = Tweet
     template_name = 'feed/home.html'
     ordering = ['-created_at']
+    paginate_by = PAGINATION_COUNT
 
     def get_queryset(self):
         user = self.request.user
@@ -25,6 +31,7 @@ class UserTweetListView(LoginRequiredMixin, ListView):
     model = Tweet
     template_name = 'feed/user_posts.html'
     context_object_name = 'tweets'
+    paginate_by = PAGINATION_COUNT
 
     def visible_user(self):
         return get_object_or_404(User, username=self.kwargs.get('username'))
@@ -71,22 +78,18 @@ class UserTweetListView(LoginRequiredMixin, ListView):
 class TweetCreateView(LoginRequiredMixin,CreateView):
     model = Tweet
     template_name = 'feed/create.html'
-    fields = ['text']
+    fields = ['text','image']
     success_url = '/'
     
     def form_valid(self,form):
         form.instance.user = self.request.user
         return super().form_valid(form)
     
-    def get_context_data(self, **kwargs):
-        data = super().get_context_data(**kwargs)
-        data['tag_line'] = 'Add a new Tweet'
-        return data
 
 class TweetUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
     model = Tweet
     template_name = 'feed/tweet_form.html'
-    fields = ['text']
+    fields = ['text','image']
     success_url = '/'
     
     def form_valid(self,form):

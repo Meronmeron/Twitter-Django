@@ -40,7 +40,7 @@
                                            class="rounded-circle mr-2"
                                            style="width: 20px; height: 20px;"
                                            src="{{ follow.user.profile.image.url }}">
-                               <a class="mr-2 white-important" href="{% url 'user-tweets' follow.user.username %}">
+                               <a class="mr-2 white-important" href="{% url 'user-tweets' follow.follow_user.username %}">
                                    {{ follow.user.username }}
                                </a>
                             </div>
@@ -51,4 +51,7 @@
         </div>
       </div>
     {% endif %}
+    <footer style="  position: fixed; left: 50%; bottom: 0; width: 100%;">
+        <p> © 2023 Twitter, Inc.</p>
+   </footer>
 {% endblock content %}
