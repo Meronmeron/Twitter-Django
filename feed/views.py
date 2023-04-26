@@ -12,11 +12,16 @@ def is_users(post_user, logged_user):
 
 PAGINATION_COUNT = 3
 
+# def profile(request, pk):
+#     profile = Profile.objects.filter(user_id = pk)
+#     return render(request,'feed/profile.html' ,{'profile':profile})
+
 class TweetListView(LoginRequiredMixin,ListView):
     model = Tweet
     template_name = 'feed/home.html'
     ordering = ['-created_at']
     paginate_by = PAGINATION_COUNT
+    
 
     def get_queryset(self):
         user = self.request.user
@@ -25,6 +30,9 @@ class TweetListView(LoginRequiredMixin,ListView):
         for obj in qs:
             follows.append(obj.follow_user)
         return Tweet.objects.filter(user__in=follows).order_by('-created_at')
+
+
+
 
 
 class UserTweetListView(LoginRequiredMixin, ListView):

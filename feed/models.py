@@ -10,4 +10,10 @@ class Tweet(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    @property
+    def get_image_url(self):
+        if self.image and hasattr(self.image, 'url'):
+            return self.image.url 
+        else:
+            return "" 
 

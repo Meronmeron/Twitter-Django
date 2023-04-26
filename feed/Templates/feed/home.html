@@ -133,7 +133,7 @@
         </div>
     
     {% for tweet in object_list %}
-            <article class="media content-section hovered-tweet">
+            <article class="media content-section hovered-tweet" >
                 <div style="width: 100%; word-break: break-all;">
                     <div class="pb-2 row m-0" style="width: 100%; margin-right: 0 !important;">
                         <div style="padding-left: 0px !important;"
@@ -142,7 +142,7 @@
                                     class="rounded-circle mr-2"
                                     style="width: 20px; height: 20px;"
                                     src="{{ tweet.user.profile.image.url }}">
-                                <a class="mr-2 white-important" href="{% url 'user-tweets' tweet.user.username %}">
+                                <a class="mr-2 white-important" href="{% url 'tweetdetail' tweet.id %}">
                                     {{ tweet.user.username }}
                                 </a>
                             </div>
@@ -163,6 +163,7 @@
                                     href="{% url 'tweetdetail' tweet.id %}">
                                 <p class="mb-4">
                                     {{ tweet.text }}
+                                    
                                 </p>
                             </a>
                             </div>
@@ -170,10 +171,14 @@
                             <div class="mb-2" style="width: 100%; height: 1px; background-color: rgba(255, 255, 255, 0.1)">
                                 <a style="color: rgba(255, 255, 255, 0.5) !important;"
                                         href="{% url 'tweetdetail' tweet.id %}">
+                                        {% if tweet.image %}
                                     <img
                                     class="rounded mr-2"
-                                    style="width: 20px; height: 20px;"
-                                    src="{{ tweet.image }}">
+                                    style="width: 50px; height: 50px;"
+                                    src="{{ tweet.get_image_url }}">
+                                    {% else %}
+
+                                    {% endif %}
                                 </a>
                                 </div>
                             <br>
@@ -244,7 +249,7 @@
                                             class="rounded-circle mr-2"
                                             style="width: 20px; height: 20px;"
                                             src="{{ user.profile.image.url }}">
-                                        <a class="mr-2 white-important" href="{% url 'user-tweets' user.username %}">
+                                        <a class="mr-2 white-important" href="{% url 'tweetdetail' tweet.id %}">
                                             {{ user.username }}
                                         </a>
                                     </div>
