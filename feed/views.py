@@ -13,8 +13,23 @@ def is_users(post_user, logged_user):
 PAGINATION_COUNT = 3
 
 # def profile(request, pk):
-#     profile = Profile.objects.filter(user_id = pk)
-#     return render(request,'feed/profile.html' ,{'profile':profile})
+#     if request.user.is_authenticated:
+#         profile = Profile.objects.get(user_id = pk)
+#         tweets= Tweets.objects.filter(user_id = pk).order_by("-created_at")
+#         current_user_profile = request.user.profile
+#         if request.method == "POST":
+            
+#             action = request.POST['follow']
+#             if action == "follow":
+#                 current_user_profile.follows.add(profile)
+#             else:
+#                 current_user_profile.follows.remove(profile)
+#             current_user_profile.save()    
+#         return render(request,'profile.html',{'profile':profile, "tweets":tweets, "current_user":current_user_profile})
+#     else:
+#         messages.success(request,('You must be logged in first'))
+#         return redirect('login')
+
 
 class TweetListView(LoginRequiredMixin,ListView):
     model = Tweet
@@ -43,6 +58,7 @@ class UserTweetListView(LoginRequiredMixin,ListView):
 
     def visible_user(self):
         return get_object_or_404(User, username=self.kwargs.get('username'))
+     
 
     def get_context_data(self, **kwargs):
         visible_user = self.visible_user()

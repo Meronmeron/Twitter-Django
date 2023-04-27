@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import RegisterForm
 from .forms import ProfileUpdateForm
 from .models import Profile
+from feed.models import Tweet
 from django.contrib import messages
 from PIL import Image
 from django.contrib.auth.models import User
@@ -21,8 +22,11 @@ def register(request):
 
 @login_required
 def profile(request):
-    user = User.objects.get(username=username)
-    profile = Profile.objects.get(user=user)
+    # user = User.objects.get(username=username)
+    # profile = Profile.objects.get(user=user)
+    # tweets = Tweet.objects.filter(user=user).order_by('-created_at')
+    user = request.user
+    profile= user.profile
     tweets = Tweet.objects.filter(user=user).order_by('-created_at')
     return render(request, 'accounts/profile.html',{'user': user, 'profile': profile, 'tweets': tweets})
     

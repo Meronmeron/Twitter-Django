@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
     <div class="row">
-        <div class="col-12 col-md-3 pr-4 dont-move">
+        <div class="col-12 col-md-3 pr-4 dont-move" style="left:1%">
             <div class="profile-section">
             <h3 class="white-important p-2">
                 Profile
@@ -138,7 +138,7 @@
                     <div class="col-3" style="color: rgba(255, 255, 255, 0.5);"> 
                         <img class="rounded-circle mr-2"
                          style="width: 20px; height: 20px;" src="{{tweet.user.profile.image.url}}" alt="Generic placeholder image"> 
-                       <a class="mr-2 white-important" href="{% url 'user-tweets' tweet.user.username %}">{{ tweet.user.username }}</a> 
+                       <a class="mr-2 white-important" href="{% url 'user-tweets' tweet.user.username%}">{{ tweet.user.username }}</a> 
                     </div>
                     <div class="col-9 d-flex flex-row-reverse no-padding align-items-center"
                           style="padding-right: 0 !important;"> 

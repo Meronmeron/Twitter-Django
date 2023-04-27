@@ -1,8 +1,7 @@
 {% extends 'feed/base.html' %}
 {% block content %}
-<h1>user post here</h1>
 <div class="row">
-    <div class="col-10 col-md-3 pr-4 dont-move" style="left:1%">
+    <div class="col-12 col-md-3 pr-4 dont-move" style="left:1%">
         <div class="profile-section">
         <h3 class="white-important p-2">
             Profile
@@ -82,14 +81,30 @@
         </div>
 </div> 
         
-<div class="col-10 col-md-9 scrollable" >
+<div class="col-12 col-md-6 scrollable">
+    <div class="full-width row">
+            <div class="col-6">
+            <h3 class="white-important mb-3">
+                Tweets
+            </h3>
+        </div>
+        </div>
+        <div class="col-6 no-padding" >
+            <h6
+                    style="position: absolute; bottom: 0; right: 0"
+                    class="white-important mb-3">
+                {{ page_obj.start_index }} - {{ page_obj.end_index }} of
+                {{ paginator.count }}
+            </h6>
+        </div>
+{% for tweet in object_list %}
     <div class="card" style="width: 18rem; border-radius: 30px; width: 700px; background-color: rgba(255, 255, 255, 0.1)" >
         <div class="card-header">
             <div class="row">
                 <div class="col-3" style="color: rgba(255, 255, 255, 0.5);"> 
                     <img class="rounded-circle mr-2"
                      style="width: 20px; height: 20px;" src="{{tweet.user.profile.image.url}}" alt="Generic placeholder image"> 
-                   <a class="mr-2 white-important" href="{% url 'user-tweets' tweet.user.username %}">{{ tweet.user.username }}</a> 
+                   <a class="mr-2 white-important" href="{% url 'user-tweets' user.username %}">{{ tweet.user.username }}</a> 
                 </div>
                 <div class="col-9 d-flex flex-row-reverse no-padding align-items-center"
                       style="padding-right: 0 !important;"> 
@@ -106,24 +121,22 @@
         </div>
         
         <div class="card-body">
-            <a style="color: rgba(255, 255, 255, 0.5) !important;" 
-            href="{% url 'tweetdetail' tweet.id %}">
+            
         <p class="mb-4" style="color:rgba(255, 255, 255, 0.5)">
             {{ tweet.text }}
             
         </p>
-    </a>
-    <a style="color: rgba(255, 255, 255, 0.5) !important; "
-                                    href="{% url 'tweetdetail' tweet.id %}">
+    
+    
                                     {% if tweet.image %}
                                 <img
                                 class="rounded mr-2"
-                                style="width: 600px; height: 300px;"
+                                style="width: 300px; height: 300px;"
                                 src="{{ tweet.get_image_url }}">
                                 {% else %}
 
                                 {% endif %}
-                            </a>
+                            
         </div>
         <div class="card-footer">
             <small
@@ -133,8 +146,9 @@
         </small>
         </div>
       </div>
-    </div> 
-    <br> 
+       <br> 
+    {% endfor %}
+   
    <div class="full-width d-flex justify-content-center">
                 {% if is_paginated %}
                     {% if page_obj.has_previous %}
@@ -162,7 +176,9 @@
                     {% endif %}
                 {% endif %}
             </div>
-        </div>
+        
+    </div>
+
         <div class="col-12 col-md-3 dont-move">
             <form action="{% url 'search' %}" method="post">{% csrf_token %}
                 <div class="search-container">
