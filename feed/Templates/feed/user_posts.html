@@ -26,7 +26,6 @@
                     </div>
                     <div>
                         <p>{{ user.profile.bio }}</p>
-                    <a href="{% url 'user_tweets' %}"><button class="btn btn-outline-primary">Follow</button></a>
                 </div>
                 </div>
            
@@ -53,64 +52,89 @@
                                 </h3>
                             </a>
                         </div>
-              
-            </div> 
-        </article>
-<div class="col-10 col-md-9 scrollable" >
-<article class="media content-section hovered-tweet">
-    <div style="width: 100%; word-break: break-all;">
-        <div class="pb-2 row m-0" style="width: 100%; margin-right: 0 !important;">
-            <div style="padding-left: 0px !important;"
-                class="col-8 no-padding d-flex align-items-center">
-                    <img
-                        class="rounded-circle mr-2"
-                        style="width: 20px; height: 20px;"
-                        src="{{ tweet.user.profile.image.url }}">
-                    <a class="mr-2 white-important" href="{% url 'user_tweets' tweet.user.username %}">
-                        {{ tweet.user.username }}
-                    </a>
-                </div>
-                <div class="col-4 d-flex flex-row-reverse no-padding align-items-center"
-                        style="padding-right: 0 !important;">
-                    {% if tweet.user == user %}
-                            <a class="material-icons ml-2" style="font-size: 14px" href="{% url 'tweetdelete' tweet.id %}">
-                                clear
-                            </a>
-                            <a class="material-icons ml-2" style="font-size: 14px" href="{% url 'tweetupdate' tweet.id %}">
-                                update
-                            </a>
-                    {% endif %}
-                </div>
             </div>
-          <div class="mb-2" style="width: 100%; height: 1px; background-color: rgba(255, 255, 255, 0.1)">
-                <a style="color: rgba(255, 255, 255, 0.5) !important;"
-                        href="{% url 'tweetdetail' tweet.id %}">
-                    <p class="mb-4">
-                        {{ tweet.text }}
-                    </p>
-                </a>
-                </div>
-                <br>
-                <div class="mb-2" style="width: 100%; height: 1px; background-color: rgba(255, 255, 255, 0.1)">
-                    <a style="color: rgba(255, 255, 255, 0.5) !important;"
-                            href="{% url 'tweetdetail' tweet.id %}">
-                        <img
-                        class="rounded mr-2"
-                        style="width: 20px; height: 20px;"
-                        src="{{ tweet.get_image_url }}">
-                    </a>
+        </article>
+        <div class="d-flex">
+            {% if user_profile is None %}
+                    <div style="margin-left: auto; margin-right:auto">
+                        <a class="btn btn-sm btn-outline-primary mb-4 mr-3 " href="{% url 'tweetcreate' %}">
+                            Tweet
+                        </a>
                     </div>
-                <br>
-                <div class="col-6">
-                    <small
-                        style="opacity: 0.4;"
-                        class="white-important d-flex full-width flex-row-reverse">
-                        {{ tweet.created_at| date:"H:i l, d.m.y" }}
-                    </small>
+            {% endif %}
+            {% if user_profile is not None and user_profile.id != user.id  and user.username != '' %}
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <button style="margin-left: 18px" class="btn btn-sm btn-outline-primary"
+                                    name="{% if can_follow %}follow{% else %}unfollow{% endif %}"
+                                    type="submit">
+                                {% if can_follow %}
+                                        FOLLOW
+                                {% else %}
+                                        UNFOLLOW
+                                {% endif %}
+                            </button>
+                        </div>
+                    </form>
+            {% endif %}
+        </div>
+        </div>
+</div> 
+        
+<div class="col-10 col-md-9 scrollable" >
+    <div class="card" style="width: 18rem; border-radius: 30px; width: 700px; background-color: rgba(255, 255, 255, 0.1)" >
+        <div class="card-header">
+            <div class="row">
+                <div class="col-3" style="color: rgba(255, 255, 255, 0.5);"> 
+                    <img class="rounded-circle mr-2"
+                     style="width: 20px; height: 20px;" src="{{tweet.user.profile.image.url}}" alt="Generic placeholder image"> 
+                   <a class="mr-2 white-important" href="{% url 'user-tweets' tweet.user.username %}">{{ tweet.user.username }}</a> 
                 </div>
+                <div class="col-9 d-flex flex-row-reverse no-padding align-items-center"
+                      style="padding-right: 0 !important;"> 
+                    {% if tweet.user == user %}
+                    <a class="material-icons ml-2" style="font-size: 14px;" href="{% url 'tweetdelete' tweet.id %}">
+                        clear
+                    </a>
+                    <a class="material-icons ml-2" style="font-size: 14px;" href="{% url 'tweetupdate' tweet.id %}">
+                        update
+                    </a>
+            {% endif %}</div>
             </div>
-        </article>
-    </div>  
+           
+        </div>
+        
+        <div class="card-body">
+            <a style="color: rgba(255, 255, 255, 0.5) !important;" 
+            href="{% url 'tweetdetail' tweet.id %}">
+        <p class="mb-4" style="color:rgba(255, 255, 255, 0.5)">
+            {{ tweet.text }}
+            
+        </p>
+    </a>
+    <a style="color: rgba(255, 255, 255, 0.5) !important; "
+                                    href="{% url 'tweetdetail' tweet.id %}">
+                                    {% if tweet.image %}
+                                <img
+                                class="rounded mr-2"
+                                style="width: 600px; height: 300px;"
+                                src="{{ tweet.get_image_url }}">
+                                {% else %}
+
+                                {% endif %}
+                            </a>
+        </div>
+        <div class="card-footer">
+            <small
+            style="opacity: 0.4; color:rgba(255, 255, 255, 0.5);"
+            class="white-important d-flex full-width flex-row-reverse">
+            {{ tweet.created_at| date:"H:i l, d.m.y" }}
+        </small>
+        </div>
+      </div>
+    </div> 
+    <br> 
    <div class="full-width d-flex justify-content-center">
                 {% if is_paginated %}
                     {% if page_obj.has_previous %}
@@ -170,7 +194,7 @@
                                                class="rounded-circle mr-2"
                                                style="width: 20px; height: 20px;"
                                                src="{{ user.profile.image.url }}">
-                                           <a class="mr-2 white-important" href="{% url 'user-posts' user.username %}">
+                                           <a class="mr-2 white-important" href="{% url 'user-tweets' user.username %}">
                                                {{ user.username }}
                                            </a>
                                        </div>

@@ -21,14 +21,13 @@ def register(request):
 
 @login_required
 def profile(request):
-    # user = User.objects.get(username=username)
-    # profile = Profile.objects.get(user=user)
-    # tweets = Tweet.objects.filter(user=user).order_by('-created_at')
-    return render(request, 'accounts/profile.html')
+    user = User.objects.get(username=username)
+    profile = Profile.objects.get(user=user)
+    tweets = Tweet.objects.filter(user=user).order_by('-created_at')
+    return render(request, 'accounts/profile.html',{'user': user, 'profile': profile, 'tweets': tweets})
     
 
-    # , {'user': user, 'profile': profile, 'tweets': tweets}
-
+ 
 def profileupdate(request):
     if(request.method == 'POST'):
        pform = ProfileUpdateForm(request.POST, request.FILES, instance= request.user.profile)

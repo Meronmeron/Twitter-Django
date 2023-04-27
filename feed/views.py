@@ -35,7 +35,7 @@ class TweetListView(LoginRequiredMixin,ListView):
 
 
 
-class UserTweetListView(LoginRequiredMixin, ListView):
+class UserTweetListView(LoginRequiredMixin,ListView):
     model = Tweet
     template_name = 'feed/user_posts.html'
     context_object_name = 'tweets'
@@ -52,8 +52,7 @@ class UserTweetListView(LoginRequiredMixin, ListView):
         if logged_user.username == '' or logged_user is None:
             can_follow = False
         else:
-            can_follow = (Follow.objects.filter(user=logged_user,
-                                                follow_user=visible_user).count() == 0)
+            can_follow = (Follow.objects.filter(user=logged_user,follow_user=visible_user).count() == 0)
         data = super().get_context_data(**kwargs)
 
         data['user_profile'] = visible_user
@@ -66,11 +65,10 @@ class UserTweetListView(LoginRequiredMixin, ListView):
 
     def post(self, request, *args, **kwargs):
         if request.user.id is not None:
-            follows_between = Follow.objects.filter(user=request.user,
-                                                    follow_user=self.visible_user())
+            follows_between = Follow.objects.filter(user=request.user,follow_user=self.visible_user())
 
             if 'follow' in request.POST:
-                    new_relation = Follow(user=request.user, follow_user=self.visible_user())
+                    new_relation = Follow(user=request.user,follow_user=self.visible_user())
                     if follows_between.count() == 0:
                         new_relation.save()
             elif 'unfollow' in request.POST:
