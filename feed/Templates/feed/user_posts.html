@@ -11,23 +11,19 @@
                     <img
                        class="rounded-circle mr-3 img-fluid"
                        style="width: 90px; height: 90px;"
-                       src="{{ user.profile.image.url }}" alt="Generic placeholder image">
+                       src="{{ user_profile.profile.image.url }}">
                     <div>
                         <h4 style="text-align: left"
                                 class="white-important">
-                            {{ user_profile.username }}
+                            {{ user_profile.profile.username }}
                         </h4>
                         <h6 style="text-align: left"
                                 class="email-profile">
-                            {{ user.email }}
+                            {{ user_profile.profile.email }}
                         </h6>
 
                     </div>
-                    <div>
-                        <p>{{ user.profile.bio }}</p>
                 </div>
-                </div>
-           
         </article>
         <article class="media content-section">
             <div class="row full-width pl-2">
@@ -53,6 +49,9 @@
                         </div>
             </div>
         </article>
+        <div>
+            <p>{{ user_profile.profile.bio }}</p>
+        </div>        
         <div class="d-flex">
             {% if user_profile is None %}
                     <div style="margin-left: auto; margin-right:auto">
@@ -79,7 +78,8 @@
             {% endif %}
         </div>
         </div>
-</div> 
+</div>
+
         
 <div class="col-12 col-md-6 scrollable">
     <div class="full-width row">
@@ -104,7 +104,7 @@
                 <div class="col-3" style="color: rgba(255, 255, 255, 0.5);"> 
                     <img class="rounded-circle mr-2"
                      style="width: 20px; height: 20px;" src="{{tweet.user.profile.image.url}}" alt="Generic placeholder image"> 
-                   <a class="mr-2 white-important" href="{% url 'user-tweets' user.username %}">{{ tweet.user.username }}</a> 
+                   <a class="mr-2 white-important" href="{% url 'user-tweets' tweet.user.username %}">{{ tweet.user.username }}</a> 
                 </div>
                 <div class="col-9 d-flex flex-row-reverse no-padding align-items-center"
                       style="padding-right: 0 !important;"> 
